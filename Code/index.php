@@ -22,8 +22,7 @@ if (isset($_GET['deletesuccess'])) {
                 <div class="col-sm-5">
                     <input type="text" name="search" autocomplete="off">
                     <button type="submit" class="btm btn-success" value="<?php echo $_GET['search']; ?>">Search</button>
-                      <button><a href="index.php">Go Back</a></button>
-                </div>
+                                    </div>
             </div>
         </form>
     </div>
@@ -58,7 +57,7 @@ if (isset($_GET['deletesuccess'])) {
                         $find = 1;
                     }
                     $search_first_result = ($find - 1) * $results_per_page;
-                    $searchquery = mysqli_query($conn, "SELECT * FROM `user_table` WHERE `id` LIKE '%" . $search . "%' or `firstname` LIKE '%" . $search . "%' or `lastname` LIKE '%" . $search . "%' or `age` LIKE '%" . $search . "%' or `email` LIKE '%" . $search . "%' or `gender` LIKE '%" . $search . "%' or `occupation` LIKE '%" . $search . "%'  ")
+                    $searchquery = mysqli_query($conn, "SELECT * FROM `user_table` WHERE `id` LIKE '%" . $search . "%' or `firstname` LIKE '%" . $search . "%' or `lastname` LIKE '%" . $search . "%' or `age` LIKE '%" . $search . "%' or `email` LIKE '%" . $search . "%' or `gender` LIKE '%" . $search . "%' or `occupation` LIKE '%" . $search . "%' LIMIT " . $search_first_result . ',' . $results_per_page)
                         or die(mysqli_error($conn));
                     while ($row = mysqli_fetch_assoc($searchquery)) { ?>
                         <tr id="row<?php echo $row['id']; ?>">
@@ -75,7 +74,7 @@ if (isset($_GET['deletesuccess'])) {
                             </td>
                         </tr>
                     <?php }
-                    for ($find = 1; $find <= $number_of_searches; $find++) {
+                     for ($find = 1; $find <= $number_of_searches; $find++) {
                         $pagelink = '<a href = "index.php?find=' . $find . '">' . $find . ' </a>';
                     }   
                 } else {
@@ -114,6 +113,9 @@ if (isset($_GET['deletesuccess'])) {
                             </td>
                         </tr>
                 <?php }
+                for ($page = 1; $page <= $number_of_page; $page++) {
+                    $pagelink = '<a href = "index.php?find=' . $page . '">' . $page . ' </a>';
+                }   
                 }
                 ?>
             </tbody>
@@ -121,9 +123,8 @@ if (isset($_GET['deletesuccess'])) {
     </div>
 </div>
 <div class="text-center">
-    <?php for ($page = 1; $page <= $number_of_page; $page++) {
-        echo  $pagelink = '<a href = "index.php?page=' . $page . '">' . $page . ' </a>';
-    } ?>
+    <?php
+    echo $pagelink?>
 </div>
 <script type="text/javascript">
     $(function() {
